@@ -4,14 +4,16 @@ import { EVENTS } from "../utils/constants.js";
 
 export const handleCreateBoard = async (socket, data) => {
   try {
-    const existingBoard = await Board.findOne({ boardId: data.boardId });
+    let existingBoard = await Board.findOne({ boardId: data.boardId });
 
     if (existingBoard) {
       // Board already in db
-      socket.to(data.boardId).emit(EVENTS.BOARD.LOAD, existingBoard);
+      const shapes = await Shape.find({ boardId: data.boardId });
+
+      socket.emit(EVENTS.BOARD.LOAD, { existingBoard, shapes });
     } else {
       // Board doesn't exist
-      const newBoard = await Board.create({
+      await Board.create({
         boardId: data.boardId,
         jsonData: data.stageJSON,
       });
