@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import { createServer } from "http";
+import "dotenv/config";
+
+import "./config/database.js";
 import { initSocket } from "./config/socket.js";
 
 const app = express();
