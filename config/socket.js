@@ -2,8 +2,9 @@ import { Server } from "socket.io";
 import { EVENTS } from "../utils/constants.js";
 import {
   handleCreateBoard,
-  handleBoardDraw,
-  handleFreehand,
+  handleCreateShape,
+  handleUpdateShape,
+  handleSaveShape,
 } from "../controllers.js/boardController.js";
 
 export const initSocket = (server) => {
@@ -24,8 +25,9 @@ export const initSocket = (server) => {
       handleCreateBoard(socket, data);
     });
 
-    socket.on(EVENTS.BOARD.DRAW, (data) => handleBoardDraw(socket, data));
-    socket.on(EVENTS.BOARD.FREEHAND, (data) => handleFreehand(socket, data));
+    socket.on(EVENTS.SHAPE.CREATE, (data) => handleCreateShape(socket, data));
+    socket.on(EVENTS.SHAPE.UPDATE, (data) => handleUpdateShape(socket, data));
+    socket.on(EVENTS.SHAPE.SAVE, (data) => handleSaveShape(socket, data));
 
     socket.on("disconnect", () => {
       console.log(`User disconnected: ${socket.id}`);

@@ -23,31 +23,44 @@ export const handleCreateBoard = async (socket, data) => {
   }
 };
 
-export const handleBoardDraw = async (socket, data) => {
+export const handleCreateShape = async (socket, data) => {
   try {
-    socket.to(data.boardId).emit(EVENTS.BOARD.DRAW, data);
+    const { initialData } = data;
+
+    socket.to(initialData.boardId).emit(EVENTS.SHAPE.CREATE, data);
 
     // Create the shape document
-    await Shape.create({ ...data });
+    await Shape.create({ ...initialData });
 
     await Board.findOneAndUpdate(
-      { boardId: data.boardId },
-      { $push: { shapeIds: data.shapeId } }
+      { boardId: initialData.boardId },
+      { $push: { shapeIds: initialData.shapeId } }
     );
   } catch (error) {
-    console.log("🚀 ~ handleBoardDraw ~ error:", error);
+    console.log("🚀 ~ handleCreateShape ~ error:", error);
   }
 };
 
-export const handleFreehand = async (socket, data) => {
+export const handleUpdateShape = async (socket, data) => {
   try {
-    socket.to(data.boardId).emit(EVENTS.BOARD.FREEHAND, data);
+    socket.to(data.updatedData.boardId).emit(EVENTS.SHAPE.UPDATE, data);
+  } catch (error) {
+    console.log("🚀 ~ handleUpdateShape ~ error:", error);
+  }
+};
+
+export const handleSaveShape = async (socket, data) => {
+  console.log("🚀 ~ handleSaveShape ~ data:", data);
+  try {
+    socket.to(data.data.boardId).emit(EVENTS.SHAPE.SAVE, data);
 
     await Shape.findOneAndUpdate(
-      { shapeId: data.shapeId },
-      { $push: { "attrs.points": { $each: data.points } } }
+      { shapeId: data.data.shapeId },
+      {
+        attrs: data.data.attrs,
+      }
     );
   } catch (error) {
-    console.log("🚀 ~ handleFreehand ~ error:", error);
+    console.log("🚀 ~ handleSaveShape ~ error:", error, data);
   }
 };
