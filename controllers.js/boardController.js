@@ -41,11 +41,11 @@ export const handleCreateShape = async (socket, data) => {
   }
 };
 
-export const handleUpdateShape = async (socket, data) => {
+export const handleDrawShape = async (socket, data) => {
   try {
-    socket.to(data.updatedData.boardId).emit(EVENTS.SHAPE.UPDATE, data);
+    socket.to(data.updatedData.boardId).emit(EVENTS.SHAPE.DRAW, data);
   } catch (error) {
-    console.log("🚀 ~ handleUpdateShape ~ error:", error);
+    console.log("🚀 ~ handleDrawShape ~ error:", error);
   }
 };
 
@@ -61,6 +61,6 @@ export const handleSaveShape = async (socket, data) => {
       }
     );
   } catch (error) {
-    console.log("🚀 ~ handleSaveShape ~ error:", error, data);
+    console.log("🚀 ~ handleSaveShape ~ error:", error);
   }
 };

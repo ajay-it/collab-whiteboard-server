@@ -3,7 +3,7 @@ import { EVENTS } from "../utils/constants.js";
 import {
   handleCreateBoard,
   handleCreateShape,
-  handleUpdateShape,
+  handleDrawShape,
   handleSaveShape,
 } from "../controllers.js/boardController.js";
 
@@ -26,7 +26,7 @@ export const initSocket = (server) => {
     });
 
     socket.on(EVENTS.SHAPE.CREATE, (data) => handleCreateShape(socket, data));
-    socket.on(EVENTS.SHAPE.UPDATE, (data) => handleUpdateShape(socket, data));
+    socket.on(EVENTS.SHAPE.DRAW, (data) => handleDrawShape(socket, data));
     socket.on(EVENTS.SHAPE.SAVE, (data) => handleSaveShape(socket, data));
 
     socket.on("disconnect", () => {

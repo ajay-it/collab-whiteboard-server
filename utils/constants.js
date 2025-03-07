@@ -10,7 +10,7 @@ export const EVENTS = {
 
   SHAPE: {
     CREATE: "shape.create",
-    UPDATE: "shape.update",
+    DRAW: "shape.draw",
     SAVE: "shape.save",
     DELETE: "shape.delete",
   },
