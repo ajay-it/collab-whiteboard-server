@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+
 import { EVENTS } from "../utils/constants.js";
 import {
   handleCreateBoard,

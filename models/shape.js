@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const shapeSchema = new mongoose.Schema(
   {
+    // Reference to board
     boardId: { type: String, ref: "Board", required: true },
     attrs: { type: Object, required: true },
     tool: { type: String, required: true },
