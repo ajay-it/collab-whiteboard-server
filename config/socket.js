@@ -4,6 +4,9 @@ import {
   handleCreateBoard,
   handleCreateShape,
   handleDrawShape,
+  handleModifyDraw,
+  handleModifyEnd,
+  handleModifyStart,
   handleSaveShape,
 } from "../controllers.js/boardController.js";
 
@@ -28,6 +31,14 @@ export const initSocket = (server) => {
     socket.on(EVENTS.SHAPE.CREATE, (data) => handleCreateShape(socket, data));
     socket.on(EVENTS.SHAPE.DRAW, (data) => handleDrawShape(socket, data));
     socket.on(EVENTS.SHAPE.SAVE, (data) => handleSaveShape(socket, data));
+
+    socket.on(EVENTS.SHAPE.MODIFY_START, (data) =>
+      handleModifyStart(socket, data)
+    );
+    socket.on(EVENTS.SHAPE.MODIFY_DRAW, (data) =>
+      handleModifyDraw(socket, data)
+    );
+    socket.on(EVENTS.SHAPE.MODIFY_END, (data) => handleModifyEnd(socket, data));
 
     socket.on("disconnect", () => {
       console.log(`User disconnected: ${socket.id}`);

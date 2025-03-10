@@ -12,6 +12,9 @@ export const EVENTS = {
     CREATE: "shape.create",
     DRAW: "shape.draw",
     SAVE: "shape.save",
+    MODIFY_START: "shape.modify_start",
+    MODIFY_DRAW: "shape.modify_draw",
+    MODIFY_END: "shape.modify_end",
     DELETE: "shape.delete",
   },
 };

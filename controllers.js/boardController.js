@@ -50,7 +50,6 @@ export const handleDrawShape = async (socket, data) => {
 };
 
 export const handleSaveShape = async (socket, data) => {
-  console.log("🚀 ~ handleSaveShape ~ data:", data);
   try {
     socket.to(data.data.boardId).emit(EVENTS.SHAPE.SAVE, data);
 
@@ -62,5 +61,39 @@ export const handleSaveShape = async (socket, data) => {
     );
   } catch (error) {
     console.log("🚀 ~ handleSaveShape ~ error:", error);
+  }
+};
+
+export const handleModifyStart = (socket, data) => {
+  try {
+    socket.to(data.initialData.boardId).emit(EVENTS.SHAPE.MODIFY_START, data);
+  } catch (error) {
+    console.log("🚀 ~ handleModifyStart ~ error:", error);
+  }
+};
+
+export const handleModifyDraw = (socket, data) => {
+  try {
+    socket.to(data.updatedData.boardId).emit(EVENTS.SHAPE.MODIFY_DRAW, data);
+  } catch (error) {
+    console.log("🚀 ~ handleModifyDraw ~ error:", error);
+  }
+};
+
+export const handleModifyEnd = async (socket, data) => {
+  try {
+    socket.to(data.saveData.boardId).emit(EVENTS.SHAPE.MODIFY_END, data);
+
+    await Shape.findOneAndUpdate(
+      { shapeId: data.saveData.shapeId },
+      {
+        $set: {
+          "attrs.x": data.saveData.x,
+          "attrs.y": data.saveData.y,
+        },
+      }
+    );
+  } catch (error) {
+    console.log("🚀 ~ handleModifyEnd ~ error:", error);
   }
 };
